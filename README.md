@@ -55,6 +55,7 @@ iptables -A INPUT -d 224.0.0.1 -j DROP
 # 必要なポートは下記
 # 外部からの TCP 22番ポート( SSH )へのアクセスを許可
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+# iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 
 # サーバー再起動時にも上記設定が有効となるようにルールを保存
 /etc/rc.d/init.d/iptables save
