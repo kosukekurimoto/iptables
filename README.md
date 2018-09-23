@@ -27,7 +27,7 @@ sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
 echo "net.ipv4.tcp_syncookies=1" >> /etc/sysctl.conf
 
 # ブロードキャストアドレス宛 ping には応答しない
-# ※Smurf攻撃対策
+# ※Smurf 攻撃対策
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1 > /dev/null
 sed -i '/net.ipv4.icmp_echo_ignore_broadcasts/d' /etc/sysctl.conf
 echo "net.ipv4.icmp_echo_ignore_broadcasts=1" >> /etc/sysctl.conf
