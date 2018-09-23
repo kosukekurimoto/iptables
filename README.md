@@ -20,19 +20,19 @@ iptables -A INPUT -i lo -j ACCEPT
 # 内部から行ったアクセスに対する外部からの返答アクセスを許可
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-# SYN Cookiesを有効にする
-# ※TCP SYN Flood攻撃対策
+# SYN Cookies を有効にする
+# SYNフラッド攻撃( SYN Flood Attack )対策
 sysctl -w net.ipv4.tcp_syncookies=1 > /dev/null
 sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
 echo "net.ipv4.tcp_syncookies=1" >> /etc/sysctl.conf
 
-# ブロードキャストアドレス宛pingには応答しない
+# ブロードキャストアドレス宛 ping には応答しない
 # ※Smurf攻撃対策
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1 > /dev/null
 sed -i '/net.ipv4.icmp_echo_ignore_broadcasts/d' /etc/sysctl.conf
 echo "net.ipv4.icmp_echo_ignore_broadcasts=1" >> /etc/sysctl.conf
 
-# ICMP Redirectパケットは拒否
+# ICMP Redirect パケットは拒否
 sed -i '/net.ipv4.conf.*.accept_redirects/d' /etc/sysctl.conf
 for dev in `ls /proc/sys/net/ipv4/conf/`
 do
@@ -40,7 +40,7 @@ do
     echo "net.ipv4.conf.$dev.accept_redirects=0" >> /etc/sysctl.conf
 done
 
-# Source Routedパケットは拒否
+# Source Routed パケットは拒否
 sed -i '/net.ipv4.conf.*.accept_source_route/d' /etc/sysctl.conf
 for dev in `ls /proc/sys/net/ipv4/conf/`
 do
@@ -52,7 +52,7 @@ done
 iptables -A INPUT -d 255.255.255.255 -j DROP
 iptables -A INPUT -d 224.0.0.1 -j DROP
 
-# 外部からのTCP22番ポート(SSH)へのアクセスを許可
+# 外部からの TCP 22番ポート( SSH )へのアクセスを許可
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
 # サーバー再起動時にも上記設定が有効となるようにルールを保存
