@@ -52,6 +52,7 @@ done
 iptables -A INPUT -d 255.255.255.255 -j DROP
 iptables -A INPUT -d 224.0.0.1 -j DROP
 
+# 必要なポートは下記
 # 外部からの TCP 22番ポート( SSH )へのアクセスを許可
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
